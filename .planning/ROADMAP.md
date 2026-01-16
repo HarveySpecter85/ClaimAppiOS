@@ -14,7 +14,7 @@ None
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-- [ ] **Phase 1: Security Hardening** - Remove backdoor, secure all unauthenticated routes
+- [x] **Phase 1: Security Hardening** - Remove backdoor, secure all unauthenticated routes
 - [ ] **Phase 2: Authentication Audit** - Verify JWT flow, session management, role assignment
 - [ ] **Phase 3: Database Integrity** - Audit foreign keys, relationships, constraints
 - [ ] **Phase 4: User Onboarding Workflow** - Registration → role assignment → client access
@@ -34,11 +34,11 @@ None
 **Plans**: 5 plans
 
 Plans:
-- [ ] 01-01: Remove hardcoded admin backdoor from login route
-- [ ] 01-02: Secure core entity routes (clients, employees, admin-users, audit-logs, job-positions, messages)
-- [ ] 01-03: Secure incident and investigation routes (incidents, interviews, evidence, corrective-actions)
-- [ ] 01-04: Secure document/form routes (benefits, medical, prescriptions, mileage, policies)
-- [ ] 01-05: Secure remaining routes and verify complete coverage
+- [x] 01-01: Remove hardcoded admin backdoor from login route
+- [x] 01-02: Secure core entity routes (clients, employees, admin-users, audit-logs, job-positions, messages)
+- [x] 01-03: Secure incident and investigation routes (incidents, interviews, evidence, corrective-actions)
+- [x] 01-04: Secure document/form routes (benefits, medical, prescriptions, mileage, policies)
+- [x] 01-05: Secure remaining routes and verify complete coverage
 
 ### Phase 2: Authentication Audit
 **Goal**: Verify JWT token flow, session management, and role assignment work correctly
@@ -101,7 +101,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Security Hardening | 0/5 | Not started | - |
+| 1. Security Hardening | 5/5 | Complete | 2026-01-16 |
 | 2. Authentication Audit | 0/TBD | Not started | - |
 | 3. Database Integrity | 0/TBD | Not started | - |
 | 4. User Onboarding Workflow | 0/TBD | Not started | - |
