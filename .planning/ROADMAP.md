@@ -31,7 +31,14 @@ None
 **Goal**: Remove hardcoded admin backdoor and add authentication to all unprotected API routes
 **Depends on**: Nothing (first phase — critical security)
 **Research**: Unlikely (internal code fixes, existing auth patterns)
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 01-01: Remove hardcoded admin backdoor from login route
+- [ ] 01-02: Secure core entity routes (clients, employees, admin-users, audit-logs, job-positions, messages)
+- [ ] 01-03: Secure incident and investigation routes (incidents, interviews, evidence, corrective-actions)
+- [ ] 01-04: Secure document/form routes (benefits, medical, prescriptions, mileage, policies)
+- [ ] 01-05: Secure remaining routes and verify complete coverage
 
 ### Phase 2: Authentication Audit
 **Goal**: Verify JWT token flow, session management, and role assignment work correctly
@@ -94,7 +101,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Security Hardening | 0/TBD | Not started | - |
+| 1. Security Hardening | 0/5 | Not started | - |
 | 2. Authentication Audit | 0/TBD | Not started | - |
 | 3. Database Integrity | 0/TBD | Not started | - |
 | 4. User Onboarding Workflow | 0/TBD | Not started | - |
