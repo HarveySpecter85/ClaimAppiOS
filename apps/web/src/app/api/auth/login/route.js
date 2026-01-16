@@ -18,6 +18,9 @@ export async function POST(request) {
       );
     }
 
+    // SECURITY: All authentication must go through proper password verification.
+    // No hardcoded credentials or bypass mechanisms allowed.
+
     // Buscar usuario en la base de datos (case-insensitive)
     const rows = await sql`
       SELECT * FROM admin_users WHERE LOWER(email) = LOWER(${email})
