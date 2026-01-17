@@ -24,7 +24,7 @@ export async function GET(request, { params }) {
 }
 
 export async function POST(request, { params }) {
-  const { authorized, response } = await requireRole(request, ["global_admin"]);
+  const { authorized, response, user } = await requireRole(request, ["global_admin"]);
   if (!authorized) return response;
 
   const { id } = params;
@@ -39,8 +39,8 @@ export async function POST(request, { params }) {
   try {
     const rows = await sql`
       INSERT INTO user_client_roles (user_id, client_id, company_role, assigned_by)
-      VALUES (${id}, ${client_id}, ${company_role}, ${request.headers.get("x-user-id") || null})
-      ON CONFLICT (user_id, client_id) 
+      VALUES (${id}, ${client_id}, ${company_role}, ${user.id})
+      ON CONFLICT (user_id, client_id)
       DO UPDATE SET company_role = EXCLUDED.company_role
       RETURNING *
     `;
