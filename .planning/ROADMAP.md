@@ -44,7 +44,13 @@ Plans:
 **Goal**: Verify JWT token flow, session management, and role assignment work correctly
 **Depends on**: Phase 1
 **Research**: Unlikely (verify existing @auth/core setup)
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 02-01: Audit JWT token generation and validation (login, requireRole middleware)
+- [ ] 02-02: Audit session management (web cookies, mobile SecureStore, logout)
+- [ ] 02-03: Audit role assignment and role checking (admin-users, client-roles, RBAC)
+- [ ] 02-04: Audit temporary access flow and complete phase verification
 
 ### Phase 3: Database Integrity
 **Goal**: Audit all foreign keys, relationships, and constraints in PostgreSQL schema
@@ -102,7 +108,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Security Hardening | 5/5 | Complete | 2026-01-16 |
-| 2. Authentication Audit | 0/TBD | Not started | - |
+| 2. Authentication Audit | 0/4 | Planned | - |
 | 3. Database Integrity | 0/TBD | Not started | - |
 | 4. User Onboarding Workflow | 0/TBD | Not started | - |
 | 5. Incident Lifecycle Workflow | 0/TBD | Not started | - |
