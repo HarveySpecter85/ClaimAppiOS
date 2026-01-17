@@ -68,7 +68,13 @@ Plans:
 **Goal**: Verify complete user journey: registration → role assignment → client access
 **Depends on**: Phase 2, Phase 3
 **Research**: Unlikely (verify existing flow works end-to-end)
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 04-01: Audit user creation and password flow
+- [ ] 04-02: Audit role assignment flow
+- [ ] 04-03: Audit client access enforcement
+- [ ] 04-04: Complete phase verification
 
 ### Phase 5: Incident Lifecycle Workflow
 **Goal**: Verify complete incident journey: create → assign → investigate → resolve → close
@@ -116,7 +122,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 1. Security Hardening | 5/5 | Complete | 2026-01-16 |
 | 2. Authentication Audit | 4/4 | Complete | 2026-01-17 |
 | 3. Database Integrity | 4/4 | Complete | 2026-01-17 |
-| 4. User Onboarding Workflow | 0/TBD | Not started | - |
+| 4. User Onboarding Workflow | 0/4 | Not started | - |
 | 5. Incident Lifecycle Workflow | 0/TBD | Not started | - |
 | 6. Claims Processing Workflow | 0/TBD | Not started | - |
 | 7. API Data Validation | 0/TBD | Not started | - |
