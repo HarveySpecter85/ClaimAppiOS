@@ -1,0 +1,26 @@
+export const investigationsTranslations = {
+  en: {
+    title: "Investigations",
+    searchPlaceholder: "Search incidents...",
+    sort: "Sort",
+    status: "Status",
+    priority: "Priority",
+    employee: "Employee:",
+    type: "Type:",
+    location: "Location:",
+    date: "Date:",
+    unknownClient: "Unknown Client",
+  },
+  es: {
+    title: "Investigaciones",
+    searchPlaceholder: "Buscar incidentes…",
+    sort: "Ordenar",
+    status: "Estado",
+    priority: "Prioridad",
+    employee: "Empleado:",
+    type: "Tipo:",
+    location: "Ubicación:",
+    date: "Fecha:",
+    unknownClient: "Cliente desconocido",
+  },
+};
