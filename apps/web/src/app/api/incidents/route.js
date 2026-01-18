@@ -72,6 +72,14 @@ export async function GET(request) {
 export async function POST(request) {
   const body = await request.json();
 
+  // Validate required client_id - no fallback to arbitrary values
+  if (!body.client_id) {
+    return Response.json(
+      { error: "client_id is required" },
+      { status: 400 }
+    );
+  }
+
   const incidentNumber = `INC-${Math.floor(Math.random() * 9000) + 1000}`;
 
   const rows = await sql`

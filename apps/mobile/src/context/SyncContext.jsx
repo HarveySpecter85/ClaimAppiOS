@@ -121,7 +121,7 @@ export function SyncProvider({ children }) {
         ...locationData,
         analysis_data: finalAnalysisData,
         employee_id: employeeId,
-        client_id: employeeData.client_id || 1,
+        client_id: employeeData.client_id,
       }),
     });
 

@@ -127,7 +127,7 @@ export function useIncidentForm() {
             ...locationData,
             analysis_data: finalAnalysisData, // Send as analysis_data to match backend
             employee_id: employeeId,
-            client_id: employeeData.client_id || 1,
+            client_id: employeeData.client_id,
           }),
         });
 
