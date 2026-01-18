@@ -16,6 +16,11 @@ export async function POST(request) {
       trip_entries = [],
     } = body;
 
+    // Validate required fields
+    if (!incident_id) {
+      return Response.json({ error: "incident_id is required" }, { status: 400 });
+    }
+
     // Create the reimbursement record
     const reimbursements = await sql`
       INSERT INTO mileage_reimbursements 

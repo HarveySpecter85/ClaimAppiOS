@@ -42,6 +42,11 @@ export async function POST(request) {
     status,
   } = body;
 
+  // Validate required fields
+  if (!incident_id) {
+    return Response.json({ error: "incident_id is required" }, { status: 400 });
+  }
+
   const [row] = await sql`
     INSERT INTO refusal_of_treatments (
       incident_id,

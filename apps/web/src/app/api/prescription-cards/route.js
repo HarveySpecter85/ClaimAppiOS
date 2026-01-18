@@ -48,6 +48,11 @@ export async function POST(request) {
     status,
   } = body;
 
+  // Validate required fields
+  if (!incident_id) {
+    return Response.json({ error: "incident_id is required" }, { status: 400 });
+  }
+
   const [row] = await sql`
     INSERT INTO prescription_cards (
       incident_id,

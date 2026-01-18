@@ -42,6 +42,11 @@ export async function POST(request) {
   try {
     const body = await request.json();
 
+    // Validate required fields
+    if (!body.incident_id) {
+      return Response.json({ error: "incident_id is required" }, { status: 400 });
+    }
+
     const decision = body.decision === "decline" ? "decline" : "accept";
     const status = body.status === "submitted" ? "submitted" : "draft";
 
