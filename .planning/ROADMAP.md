@@ -104,7 +104,13 @@ Plans:
 **Goal**: Verify all API endpoints return related data correctly with proper joins
 **Depends on**: Phase 3
 **Research**: Unlikely (internal verification of existing queries)
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 07-01: Audit incident-centric endpoints (list, detail, dossier, dashboard)
+- [ ] 07-02: Audit form-related endpoints (8 form types)
+- [ ] 07-03: Audit investigation endpoints (interviews, evidence, corrective-actions)
+- [ ] 07-04: Complete phase verification
 
 ### Phase 8: Mobile Sync Verification
 **Goal**: Fix offline sync relationship issues and verify SyncContext works correctly
