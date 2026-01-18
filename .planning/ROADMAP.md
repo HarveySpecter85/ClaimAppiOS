@@ -92,7 +92,13 @@ Plans:
 **Goal**: Verify claims journey: submission → review → approval
 **Depends on**: Phase 5
 **Research**: Unlikely (verify existing flow works end-to-end)
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 06-01: Audit form submission workflow (7 form types)
+- [ ] 06-02: Audit review and approval flow
+- [ ] 06-03: Audit status tracking and audit trail
+- [ ] 06-04: Complete phase verification
 
 ### Phase 7: API Data Validation
 **Goal**: Verify all API endpoints return related data correctly with proper joins
@@ -130,7 +136,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 3. Database Integrity | 4/4 | Complete | 2026-01-17 |
 | 4. User Onboarding Workflow | 4/4 | Complete | 2026-01-17 |
 | 5. Incident Lifecycle Workflow | 4/4 | Complete | 2026-01-17 |
-| 6. Claims Processing Workflow | 0/TBD | Not started | - |
+| 6. Claims Processing Workflow | 0/4 | Not started | - |
 | 7. API Data Validation | 0/TBD | Not started | - |
 | 8. Mobile Sync Verification | 0/TBD | Not started | - |
 | 9. Navigation & Error Handling | 0/TBD | Not started | - |
