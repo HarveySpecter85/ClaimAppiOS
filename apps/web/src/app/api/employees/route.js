@@ -98,10 +98,11 @@ export async function POST(request) {
 
   const newData = rows[0];
 
-  // Log Audit for Employee Creation
-  const performedBy = body.performed_by_user
-    ? body.performed_by_user
-    : { id: null, name: "Anonymous/System" };
+  // Log Audit for Employee Creation - use server-side authenticated user
+  const performedBy = {
+    id: user.id,
+    name: user.name || user.email,
+  };
 
   await logAudit({
     entityType: "employee",

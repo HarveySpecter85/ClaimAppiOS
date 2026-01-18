@@ -53,10 +53,11 @@ export async function PUT(request, { params }) {
 
   const newData = rows[0];
 
-  // 2. Log Audit
-  const performedBy = body.performed_by_user
-    ? body.performed_by_user
-    : { id: null, name: "Anonymous/System" };
+  // 2. Log Audit - use server-side authenticated user, not client-provided
+  const performedBy = {
+    id: user.id,
+    name: user.name || user.email,
+  };
 
   await logAudit({
     entityType: "client",
