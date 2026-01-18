@@ -48,6 +48,27 @@ export async function PATCH(request, { params }) {
   }
   const oldData = currentRows[0];
 
+  // 2. Enforce role for approval/rejection
+  const isStatusChange =
+    body.status && body.status !== oldData.status;
+  const isApprovalOrRejection =
+    body.status === "approved" || body.status === "rejected";
+
+  if (isStatusChange && isApprovalOrRejection) {
+    const reviewerRoles = ["reviewer", "admin", "global_admin"];
+    const hasReviewerRole =
+      reviewerRoles.includes(user.system_role) ||
+      reviewerRoles.includes(user.role) ||
+      user.client_roles?.some((cr) => reviewerRoles.includes(cr.company_role));
+
+    if (!hasReviewerRole) {
+      return Response.json(
+        { error: "Forbidden: You do not have permission to approve or reject incidents" },
+        { status: 403 }
+      );
+    }
+  }
+
   const updates = [];
   const values = [];
   let paramCount = 1;
@@ -70,7 +91,7 @@ export async function PATCH(request, { params }) {
     "initial_cause",
     // New Workflow Fields
     "reviewed_by",
-    "reviewed_at",
+    // "reviewed_at" is excluded - set server-side only
     "rejection_reason",
     "submission_date",
   ];
@@ -81,6 +102,13 @@ export async function PATCH(request, { params }) {
       values.push(body[field]);
       paramCount++;
     }
+  }
+
+  // Set reviewed_at server-side when status changes to approved/rejected
+  if (isStatusChange && isApprovalOrRejection) {
+    updates.push(`reviewed_at = $${paramCount}`);
+    values.push(new Date().toISOString());
+    paramCount++;
   }
 
   if (updates.length === 0) {
