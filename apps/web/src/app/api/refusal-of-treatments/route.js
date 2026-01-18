@@ -47,6 +47,14 @@ export async function POST(request) {
     return Response.json({ error: "incident_id is required" }, { status: 400 });
   }
 
+  // Require employee signature for submitted legal documents
+  if (status !== "draft" && !employee_signature_url) {
+    return Response.json(
+      { error: "employee_signature is required for submitted documents" },
+      { status: 400 },
+    );
+  }
+
   const [row] = await sql`
     INSERT INTO refusal_of_treatments (
       incident_id,

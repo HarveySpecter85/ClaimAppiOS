@@ -58,6 +58,14 @@ export async function POST(request) {
       );
     }
 
+    // Require employee signature for submitted legal documents
+    if (status !== "draft" && !employee_signature_url) {
+      return Response.json(
+        { error: "employee_signature is required for submitted documents" },
+        { status: 400 },
+      );
+    }
+
     const result = await sql`
       INSERT INTO benefit_affidavits (
         incident_id,
