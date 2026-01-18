@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import { useUser } from "@/utils/useUser";
 import {
   ChevronLeft,
   Calendar,
@@ -23,6 +24,7 @@ import {
 export default function ReviewDetailsPage({ params }) {
   const { id } = params;
   const queryClient = useQueryClient();
+  const { user } = useUser();
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
 
@@ -44,8 +46,7 @@ export default function ReviewDetailsPage({ params }) {
           status,
           rejection_reason: reason || null,
           reviewed_at: new Date().toISOString(),
-          // In a real app, this would come from auth context
-          reviewed_by: 1,
+          reviewed_by: user?.id,
         }),
       });
       if (!res.ok) throw new Error("Failed to update status");
