@@ -168,7 +168,7 @@ export default function IncidentDetails() {
   if (!incident) return null;
 
   const phases = [
-    { title: "Interviews", icon: User, route: `/interview/${id}` },
+    { title: "Interviews", icon: User, route: `/(tabs)/interview/${id}` },
     { title: "Evidence", icon: FileText, route: `/(tabs)/evidence/${id}` },
     { title: "Root Cause", icon: FileText, route: `/(tabs)/root-cause/${id}` },
     {
