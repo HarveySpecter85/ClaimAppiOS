@@ -20,6 +20,16 @@ import { isAuthAction } from './is-auth-action';
 import { API_BASENAME, api } from './route-builder';
 neonConfig.webSocketConstructor = ws;
 
+// Startup environment validation
+const REQUIRED_ENV_VARS = ['DATABASE_URL', 'AUTH_SECRET'] as const;
+const missingVars = REQUIRED_ENV_VARS.filter((varName) => !process.env[varName]);
+
+if (missingVars.length > 0) {
+  console.error('FATAL: Missing required environment variables:', missingVars.join(', '));
+  console.error('Please set these variables in your environment or .env file');
+  process.exit(1);
+}
+
 const als = new AsyncLocalStorage<{ requestId: string }>();
 
 for (const method of ['log', 'info', 'warn', 'error', 'debug'] as const) {
