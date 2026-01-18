@@ -2,7 +2,78 @@ import sql from "@/app/api/utils/sql";
 import argon2 from "argon2";
 import { encode } from "@auth/core/jwt";
 
+// Simple in-memory rate limiting
+// 10 attempts per IP per minute
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const MAX_ATTEMPTS = 10;
+const rateLimitStore = new Map();
+
+function getRateLimitKey(request) {
+  // Try to get the client IP from headers (common for proxied requests)
+  const forwarded = request.headers.get("x-forwarded-for");
+  const realIp = request.headers.get("x-real-ip");
+  const cfConnectingIp = request.headers.get("cf-connecting-ip");
+
+  return cfConnectingIp || realIp || forwarded?.split(",")[0]?.trim() || "unknown";
+}
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const record = rateLimitStore.get(ip);
+
+  if (!record) {
+    rateLimitStore.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return { allowed: true, remaining: MAX_ATTEMPTS - 1 };
+  }
+
+  // Reset if window expired
+  if (now > record.resetTime) {
+    rateLimitStore.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return { allowed: true, remaining: MAX_ATTEMPTS - 1 };
+  }
+
+  // Check if limit exceeded
+  if (record.count >= MAX_ATTEMPTS) {
+    const retryAfter = Math.ceil((record.resetTime - now) / 1000);
+    return { allowed: false, remaining: 0, retryAfter };
+  }
+
+  // Increment count
+  record.count++;
+  return { allowed: true, remaining: MAX_ATTEMPTS - record.count };
+}
+
+// Clean up old entries periodically (every 5 minutes)
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, record] of rateLimitStore.entries()) {
+    if (now > record.resetTime) {
+      rateLimitStore.delete(ip);
+    }
+  }
+}, 5 * 60 * 1000);
+
 export async function POST(request) {
+  // Check rate limit
+  const clientIp = getRateLimitKey(request);
+  const rateLimit = checkRateLimit(clientIp);
+
+  if (!rateLimit.allowed) {
+    return Response.json(
+      {
+        error: "Demasiados intentos de inicio de sesion. Intente de nuevo mas tarde.",
+        retryAfter: rateLimit.retryAfter,
+      },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(rateLimit.retryAfter),
+          "X-RateLimit-Remaining": "0",
+        },
+      }
+    );
+  }
+
   try {
     const body = await request.json();
     const rawEmail = body?.email;
