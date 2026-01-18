@@ -70,17 +70,39 @@ export function SyncProvider({ children }) {
     const { payload } = item;
     const { employeeData, incidentData, analysisData, locationData } = payload;
 
-    // 1. Create/Get Employee if needed
+    // 1. Create/Get Employee if needed (with deduplication)
     let employeeId = payload.employeeId;
     if (!employeeId && employeeData?.full_name) {
-      const empResponse = await fetch("/api/employees", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(employeeData),
+      // First, check if employee already exists by (full_name + client_id)
+      const searchParams = new URLSearchParams({
+        search: employeeData.full_name,
+        ...(employeeData.client_id && { client_id: employeeData.client_id }),
       });
-      if (!empResponse.ok) throw new Error("Failed to create employee");
-      const emp = await empResponse.json();
-      employeeId = emp.id;
+      const searchResponse = await fetch(`/api/employees?${searchParams}`);
+      if (searchResponse.ok) {
+        const existingEmployees = await searchResponse.json();
+        // Find exact match by full_name and client_id
+        const existingEmployee = existingEmployees.find(
+          (emp) =>
+            emp.full_name?.toLowerCase() === employeeData.full_name?.toLowerCase() &&
+            emp.client_id === employeeData.client_id
+        );
+        if (existingEmployee) {
+          employeeId = existingEmployee.id;
+        }
+      }
+
+      // If no existing employee found, create new one
+      if (!employeeId) {
+        const empResponse = await fetch("/api/employees", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(employeeData),
+        });
+        if (!empResponse.ok) throw new Error("Failed to create employee");
+        const emp = await empResponse.json();
+        employeeId = emp.id;
+      }
     }
 
     // 2. Upload Media Files
