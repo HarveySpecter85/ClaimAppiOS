@@ -24,7 +24,7 @@ None
 - [x] **Phase 8: Mobile Sync Verification** - Fix offline sync relationship issues
 - [x] **Phase 9: Navigation & Error Handling** - Validate routes, links, error states
 - [x] **Phase 10: Production Readiness** - Final checklist, deployment verification
-- [ ] **Phase 11: iOS Hardening** - Token handling, biometrics, dead code cleanup, env audit
+- [x] **Phase 11: iOS Hardening** - Token handling, biometrics, dead code cleanup, env audit
 
 ## Phase Details
 
@@ -153,13 +153,13 @@ Plans:
 **Goal**: Harden mobile app for launch — token handling, biometrics, code cleanup, env verification
 **Depends on**: Phase 10
 **Research**: Unlikely (known patterns with expo-local-authentication and SecureStore)
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 11-01: TBD
-- [ ] 11-02: TBD
-- [ ] 11-03: TBD
-- [ ] 11-04: TBD
+- [x] 11-01: Dead code cleanup (remove AuthWebView.jsx, useAuthModal.jsx, clean useAuth.js)
+- [x] 11-02: 401 interceptor for auto-logout on expired tokens
+- [x] 11-03: Biometric authentication (FaceID/TouchID with credential storage)
+- [x] 11-04: Environment audit and iOS compliance (HTTPS, account deletion notice)
 
 ## Progress
 
@@ -178,8 +178,9 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 8. Mobile Sync Verification | 4/4 | Complete | 2026-01-17 |
 | 9. Navigation & Error Handling | 4/4 | Complete | 2026-01-17 |
 | 10. Production Readiness | 4/4 | Complete | 2026-01-17 |
-| 11. iOS Hardening | 0/4 | Not started | — |
+| 11. iOS Hardening | 4/4 | Complete | 2026-01-22 |
 
-## Current Focus
+## PROJECT COMPLETE
 
-Phase 11: iOS Hardening — Token handling, biometrics, dead code cleanup, env verification.
+All 11 phases completed. Application is ready for production launch.
+See `.planning/LAUNCH_CHECKLIST.md` for deployment procedures.

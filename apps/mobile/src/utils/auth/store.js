@@ -18,13 +18,3 @@ export const useAuthStore = create((set) => ({
     set({ auth });
   },
 }));
-
-/**
- * This store manages the state of the authentication modal.
- */
-export const useAuthModal = create((set) => ({
-  isOpen: false,
-  mode: 'signup',
-  open: (options) => set({ isOpen: true, mode: options?.mode || 'signup' }),
-  close: () => set({ isOpen: false }),
-}));

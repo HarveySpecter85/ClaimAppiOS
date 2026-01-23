@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -14,28 +14,47 @@ import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import { Mail, Lock, Eye, EyeOff, LogIn } from "lucide-react-native";
+import { Mail, Lock, Eye, EyeOff, LogIn, Fingerprint } from "lucide-react-native";
 import { useAuth } from "@/utils/auth/useAuth";
+import { useBiometricLogin } from "@/hooks/useBiometricLogin";
 
 export default function LoginScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { setAuth } = useAuth();
+  const {
+    isBiometricAvailable,
+    hasStoredCredentials,
+    isLoading: biometricLoading,
+    saveCredentials,
+    authenticateAndGetCredentials,
+    getBiometricDisplayName,
+  } = useBiometricLogin();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert("Error", "Por favor ingresa tu email y contraseña.");
-      return;
+  // Attempt biometric login on mount if credentials are stored
+  useEffect(() => {
+    if (!biometricLoading && isBiometricAvailable && hasStoredCredentials) {
+      handleBiometricLogin();
     }
+  }, [biometricLoading, isBiometricAvailable, hasStoredCredentials]);
 
+  const handleBiometricLogin = async () => {
+    const result = await authenticateAndGetCredentials();
+    if (result.success) {
+      // Auto-login with stored credentials
+      await performLogin(result.credentials.email, result.credentials.password, false);
+    }
+    // If cancelled or failed, user can still enter password manually
+  };
+
+  const performLogin = async (loginEmail, loginPassword, offerBiometric = true) => {
     setLoading(true);
     try {
-      // Llamada a nuestro nuevo endpoint de backend
       const response = await fetch(
         `${process.env.EXPO_PUBLIC_BASE_URL}/api/auth/login`,
         {
@@ -43,7 +62,7 @@ export default function LoginScreen() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email: loginEmail, password: loginPassword }),
         },
       );
 
@@ -53,15 +72,32 @@ export default function LoginScreen() {
         throw new Error(data.error || "Error al iniciar sesión");
       }
 
-      // Guardar sesión (esto persiste automáticamente gracias a useAuth)
+      // Save session
       setAuth({
         user: data.user,
         jwt: data.jwt,
       });
 
-      // Redirigir según el rol (UX Personalizada)
-      if (data.user.role === "investigator") {
-        router.replace("/(tabs)/dashboard");
+      // Offer to enable biometrics if available and not already stored
+      if (offerBiometric && isBiometricAvailable && !hasStoredCredentials) {
+        Alert.alert(
+          `Habilitar ${getBiometricDisplayName()}`,
+          `¿Deseas usar ${getBiometricDisplayName()} para iniciar sesión más rápido?`,
+          [
+            {
+              text: "No, gracias",
+              style: "cancel",
+              onPress: () => router.replace("/(tabs)/dashboard"),
+            },
+            {
+              text: "Habilitar",
+              onPress: async () => {
+                await saveCredentials(loginEmail, loginPassword);
+                router.replace("/(tabs)/dashboard");
+              },
+            },
+          ]
+        );
       } else {
         router.replace("/(tabs)/dashboard");
       }
@@ -70,6 +106,14 @@ export default function LoginScreen() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Por favor ingresa tu email y contraseña.");
+      return;
+    }
+    await performLogin(email, password);
   };
 
   return (
@@ -264,6 +308,37 @@ export default function LoginScreen() {
                 </>
               )}
             </TouchableOpacity>
+
+            {/* Biometric Login Button */}
+            {isBiometricAvailable && hasStoredCredentials && (
+              <TouchableOpacity
+                onPress={handleBiometricLogin}
+                disabled={loading}
+                style={{
+                  backgroundColor: "#fff",
+                  borderWidth: 1,
+                  borderColor: "#E5E7EB",
+                  borderRadius: 12,
+                  height: 50,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: 12,
+                }}
+              >
+                <Fingerprint color="#3B82F6" size={20} />
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: "600",
+                    color: "#3B82F6",
+                    marginLeft: 8,
+                  }}
+                >
+                  Usar {getBiometricDisplayName()}
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
 
           {/* Footer */}

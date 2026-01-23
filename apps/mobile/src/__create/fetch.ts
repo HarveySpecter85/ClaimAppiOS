@@ -1,8 +1,39 @@
 import * as SecureStore from 'expo-secure-store';
 import { fetch as expoFetch } from 'expo/fetch';
+import { router } from 'expo-router';
+import { Alert } from 'react-native';
 
 const originalFetch = fetch;
 const authKey = `${process.env.EXPO_PUBLIC_PROJECT_GROUP_ID}-jwt`;
+
+// Endpoints where 401 means "wrong credentials", not "session expired"
+const AUTH_ENDPOINTS = ['/api/auth/login', '/api/auth/register'];
+
+const isAuthEndpoint = (url: string) => {
+  return AUTH_ENDPOINTS.some((endpoint) => url.includes(endpoint));
+};
+
+const handleUnauthorized = async (url: string) => {
+  // Don't auto-logout on login/register failures
+  if (isAuthEndpoint(url)) {
+    return;
+  }
+
+  // Clear stored auth
+  await SecureStore.deleteItemAsync(authKey);
+
+  // Show alert and redirect to login
+  Alert.alert(
+    'Session Expired',
+    'Your session has expired. Please sign in again.',
+    [
+      {
+        text: 'OK',
+        onPress: () => router.replace('/login'),
+      },
+    ]
+  );
+};
 
 const getURLFromArgs = (...args: Parameters<typeof fetch>) => {
   const [urlArg] = args;
@@ -88,10 +119,17 @@ const fetchToWeb = async function fetchWithHeaders(...args: Params) {
     finalHeaders.set('authorization', `Bearer ${auth.jwt}`);
   }
 
-  return expoFetch(finalInput, {
+  const response = await expoFetch(finalInput, {
     ...init,
     headers: finalHeaders,
   });
+
+  // Handle 401 Unauthorized - session expired
+  if (response.status === 401) {
+    await handleUnauthorized(url);
+  }
+
+  return response;
 };
 
 export default fetchToWeb;

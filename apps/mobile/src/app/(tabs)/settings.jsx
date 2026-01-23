@@ -23,6 +23,7 @@ import {
   Megaphone,
   Accessibility,
   LogOut,
+  Trash2,
 } from "lucide-react-native";
 import { Linking } from "react-native";
 import LanguageSelectorButton from "../../components/LanguageSelectorButton";
@@ -801,6 +802,76 @@ export default function Settings() {
                   <ChevronRight color="#9CA3AF" size={20} />
                 </TouchableOpacity>
               ))}
+            </View>
+          </View>
+
+          {/* ACCOUNT */}
+          <View style={{ gap: 8 }}>
+            <Text
+              style={{
+                fontSize: 11,
+                fontWeight: "600",
+                color: "#6B7280",
+                textTransform: "uppercase",
+                letterSpacing: 0.5,
+                paddingHorizontal: 16,
+              }}
+            >
+              ACCOUNT
+            </Text>
+            <View
+              style={{
+                backgroundColor: "#fff",
+                borderRadius: 12,
+                overflow: "hidden",
+                borderWidth: 1,
+                borderColor: "#F3F4F6",
+              }}
+            >
+              <TouchableOpacity
+                onPress={() =>
+                  Alert.alert(
+                    "Delete Account",
+                    "To delete your account, please contact your administrator.\n\nAccount deletion requests are processed within 30 days.",
+                    [{ text: "OK" }]
+                  )
+                }
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  padding: 12,
+                  gap: 12,
+                }}
+              >
+                <View
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 10,
+                    backgroundColor: "#FEF2F2",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Trash2 color="#EF4444" size={20} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: "600",
+                      color: "#111827",
+                      marginBottom: 2,
+                    }}
+                  >
+                    Delete Account
+                  </Text>
+                  <Text style={{ fontSize: 12, color: "#6B7280" }}>
+                    Contact admin to delete your account
+                  </Text>
+                </View>
+                <ChevronRight color="#9CA3AF" size={20} />
+              </TouchableOpacity>
             </View>
           </View>
 
