@@ -1,3 +1,4 @@
+
 # Roadmap: Claim-Flow-App
 
 ## Overview
@@ -23,8 +24,7 @@ None
 - [x] **Phase 7: API Data Validation** - Verify joins/includes return related data correctly
 - [x] **Phase 8: Mobile Sync Verification** - Fix offline sync relationship issues
 - [x] **Phase 9: Navigation & Error Handling** - Validate routes, links, error states
-- [x] **Phase 10: Production Readiness** - Final checklist, deployment verification
-- [x] **Phase 11: iOS Hardening** - Token handling, biometrics, dead code cleanup, env audit
+- [ ] **Phase 10: Production Readiness** - Final checklist, deployment verification
 
 ## Phase Details
 
@@ -141,30 +141,12 @@ Plans:
 **Goal**: Complete production checklist — environment config, monitoring, final verification
 **Depends on**: All previous phases
 **Research**: Unlikely (checklist verification, no new tech)
-**Plans**: 4 plans
-
-Plans:
-- [x] 10-01: Critical security fixes (P0) - reviewed_by, client isolation, validation
-- [x] 10-02: Navigation & error fixes (P1) - incidents page, 404, error boundary
-- [x] 10-03: Production infrastructure - health check, security headers, CI, rate limiting
-- [x] 10-04: Final verification and launch checklist
-
-### Phase 11: iOS Hardening
-**Goal**: Harden mobile app for launch — token handling, biometrics, code cleanup, env verification
-**Depends on**: Phase 10
-**Research**: Unlikely (known patterns with expo-local-authentication and SecureStore)
-**Plans**: 4 plans
-
-Plans:
-- [x] 11-01: Dead code cleanup (remove AuthWebView.jsx, useAuthModal.jsx, clean useAuth.js)
-- [x] 11-02: 401 interceptor for auto-logout on expired tokens
-- [x] 11-03: Biometric authentication (FaceID/TouchID with credential storage)
-- [x] 11-04: Environment audit and iOS compliance (HTTPS, account deletion notice)
+**Plans**: TBD
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -177,10 +159,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 7. API Data Validation | 4/4 | Complete | 2026-01-17 |
 | 8. Mobile Sync Verification | 4/4 | Complete | 2026-01-17 |
 | 9. Navigation & Error Handling | 4/4 | Complete | 2026-01-17 |
-| 10. Production Readiness | 4/4 | Complete | 2026-01-17 |
-| 11. iOS Hardening | 4/4 | Complete | 2026-01-22 |
-
-## PROJECT COMPLETE
-
-All 11 phases completed. Application is ready for production launch.
-See `.planning/LAUNCH_CHECKLIST.md` for deployment procedures.
+| 10. Production Readiness | 0/TBD | Not started | - |
