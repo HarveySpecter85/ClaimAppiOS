@@ -3,7 +3,9 @@
   "main": "index",
   "version": "1.0.0",
   "scripts": {
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@expo-google-fonts/dev": "^0.4.7",
@@ -53,7 +55,7 @@
     "expo-symbols": "~1.0.6",
     "expo-system-ui": "~6.0.7",
     "expo-three": "^8.0.0",
-    "expo-updates": "~29.0.9",
+    "expo-updates": "~29.0.16",
     "expo-video": "~3.0.11",
     "expo-web-browser": "~15.0.6",
     "html-to-image": "^1.11.13",
