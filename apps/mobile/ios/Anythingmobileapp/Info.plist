@@ -27,7 +27,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>xyz.create.CreateExpoEnvironment</string>
+				<string>com.claimflow.mobile</string>
 			</array>
 		</dict>
 	</array>

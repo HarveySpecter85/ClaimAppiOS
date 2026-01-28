@@ -1,4 +1,4 @@
-package xyz.create.CreateExpoEnvironment
+package com.claimflow.mobile
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build
